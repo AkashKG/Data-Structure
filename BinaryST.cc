@@ -1,6 +1,7 @@
 #include<iostream>
 #include<malloc.h>
 #include<queue>
+#include<stack>
 using namespace std;
 
 typedef struct NODE{
@@ -12,14 +13,17 @@ node insertNode(node root, int val);
 node deleteNode(node root, int val);
 bool searchNode(node root, int val);
 void traverse(node root);
+void preorder(node root);
+void postorder(node root);
 void loTraverse(node root);
+void inorderStack(node root);
 
 int main(){
     int opt;
     int val;
     node root = NULL;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Traverse\n[5] Level Order Traversal\n[6] Inorder\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -38,6 +42,18 @@ int main(){
                 case 5: cout<<endl;
                    // node temp = root;
                         loTraverse(root);
+                        cout<<endl;
+                        break;
+                case 6: cout<<endl;
+                        preorder(root);
+                        cout<<endl;
+                        break;
+                case 7: cout<<endl;
+                        postorder(root);
+                        cout<<endl;
+                        break;
+                case 8: cout<<endl;
+                        inorderStack(root);
                         cout<<endl;
                         break;
 
@@ -75,6 +91,24 @@ void traverse(node root){
         traverse(root->left);
         cout<<root->data<< " ";
         traverse(root->right);
+}
+
+void preorder(node root){
+    if(root == NULL){
+        return;
+    }
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(node root){
+    if(root == NULL){
+        return;
+    }
+    preorder(root->left);
+    preorder(root->right);
+    cout<<root->data<<" ";
 }
 
 node deleteNode(node root, int data){
@@ -138,4 +172,28 @@ void loTraverse(node root){
         if(temp->right!=NULL)
             q.push(temp->right);
     }
+}
+
+void inorderStack(node root){
+    if(root == NULL)
+        return;
+    stack <node> s;
+    node current = root;
+    while(!s.empty()||current!=NULL){
+        if(current!=NULL)
+            s.push(current);
+        cout<<"\n\t\tEntered while loop!";
+        while(current!=NULL){
+            current = current->left;
+            cout<<"\n\t\tPushed into stack";
+            if(current!=NULL)
+            s.push(current);
+        }
+        current = s.top();
+        cout<<"\n"<<current->data<<"\n";
+        cout<<"\n\t\tPopped Top";
+        s.pop();
+        current=current->right;
+    }
+
 }
