@@ -19,13 +19,16 @@ void postorder(node root);
 void loTraverse(node root);
 void inorderStack(node root);
 bool isBST(node root, int , int);
+void kthSmallestElement(node root, int k);
+
+int count = 0;
 
 int main(){
     int opt;
     int val;
     node root = NULL;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -68,7 +71,10 @@ int main(){
                 case 10:cin>>val;
                         root = insertNodeError(root, val);
                         break;
-
+                case 11:cin>>val;
+                        count=0;
+                        kthSmallestElement(root, val);
+                        break;
             }
     }
     return 0;
@@ -232,4 +238,18 @@ bool isBST(node root, int minVal, int maxVal){
         return false;
     return isBST(root->left, minVal, root->data - 1) && isBST(root->right, root->data+1, maxVal);
 
+}
+void kthSmallestElement(node root, int k){
+    if(root == NULL){
+        return ;
+    }
+    kthSmallestElement(root->left, k);
+    count++;
+    if(count == k){
+        cout<<"\nThe asked smallest element is: "<<root->data<<endl;
+        return;
+    }
+    if(root->right!=NULL){
+        kthSmallestElement(root->right, k);
+    }
 }
