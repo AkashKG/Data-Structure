@@ -20,7 +20,11 @@ void loTraverse(node root);
 void inorderStack(node root);
 bool isBST(node root, int , int);
 void kthSmallestElement(node root, int k);
-
+void getDataOfKthNode(node root, int pos);
+int getDiameter(node);
+int height(node root);
+int max(int, int);
+int max(int,int,int);
 int count = 0;
 
 int main(){
@@ -28,7 +32,7 @@ int main(){
     int val;
     node root = NULL;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -75,9 +79,24 @@ int main(){
                         count=0;
                         kthSmallestElement(root, val);
                         break;
+                case 12:cin>>val;
+                        count=0;
+                        getDataOfKthNode(root, val);
+                        break;
+                case 13:val = getDiameter(root);
+                        cout<<"\nDiameter is: "<<val;
+                        break;
             }
     }
     return 0;
+}
+
+int max(int a, int b){
+    return a>b?a:b;
+}
+
+int max(int a, int b, int c){
+    return a>b?(a>c?a:c):(b>c?b:c);
 }
 
 node insertNode(node root, int data){
@@ -252,4 +271,33 @@ void kthSmallestElement(node root, int k){
     if(root->right!=NULL){
         kthSmallestElement(root->right, k);
     }
+}
+
+void getDataOfKthNode(node root, int pos){
+    if(root == NULL)
+        return;
+    if(pos == 0){
+        cout<<root->data<<" ";
+    }
+    getDataOfKthNode(root->left,pos-1);
+    getDataOfKthNode(root->right, pos-1);
+}
+
+int height(node root){
+    if(root == NULL){
+        return 0;
+    }
+    return 1 + max(height(root->left), height(root->right));
+}
+
+int getDiameter(node root){
+    if(root == NULL)
+        return 0;
+    int lheight = height(root->left);
+    int rheight = height(root->right);
+
+    int lDiameter = getDiameter(root->left);
+    int rDiameter = getDiameter(root->right);
+    return max(lheight+rheight+1, max(lDiameter,rDiameter));
+
 }
