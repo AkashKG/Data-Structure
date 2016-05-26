@@ -10,6 +10,7 @@ typedef struct NODE{
 }*node;
 
 node insertNode(node root, int val);
+node insertNodeError(node root, int val);
 node deleteNode(node root, int val);
 bool searchNode(node root, int val);
 void traverse(node root);
@@ -17,13 +18,14 @@ void preorder(node root);
 void postorder(node root);
 void loTraverse(node root);
 void inorderStack(node root);
+bool isBST(node root, int , int);
 
 int main(){
     int opt;
     int val;
     node root = NULL;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -56,6 +58,16 @@ int main(){
                         inorderStack(root);
                         cout<<endl;
                         break;
+                case 9: cout<<endl;
+                        if(root!=NULL)
+                        if(isBST(root, -999, 999))
+                            cout<<"BST\n";
+                        else
+                            cout<<"NOT BST";
+                        break;
+                case 10:cin>>val;
+                        root = insertNodeError(root, val);
+                        break;
 
             }
     }
@@ -71,6 +83,20 @@ node insertNode(node root, int data){
         return root;
     }
     if(data < root->data){
+        root->left = insertNode(root->left, data);
+    }
+    else root->right = insertNode(root->right, data);
+    return root;
+}
+node insertNodeError(node root, int data){
+    if(root == NULL){
+        node newnode = (node)malloc(sizeof(struct NODE));
+        newnode->data = data;
+        root = newnode;
+        root->left = root->right = NULL;
+        return root;
+    }
+    if(data > root->data){
         root->left = insertNode(root->left, data);
     }
     else root->right = insertNode(root->right, data);
@@ -195,5 +221,15 @@ void inorderStack(node root){
         s.pop();
         current=current->right;
     }
+
+}
+
+bool isBST(node root, int minVal, int maxVal){
+    if(root == NULL){
+        return true;
+    }
+    if(root->data < minVal || root->data > maxVal)
+        return false;
+    return isBST(root->left, minVal, root->data - 1) && isBST(root->right, root->data+1, maxVal);
 
 }
