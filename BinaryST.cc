@@ -13,11 +13,13 @@ node insertNode(node root, int val);
 node insertNodeError(node root, int val);
 node deleteNode(node root, int val);
 bool searchNode(node root, int val);
+int sumTree(node);
 void traverse(node root);
 void preorder(node root);
 void postorder(node root);
 void loTraverse(node root);
 void inorderStack(node root);
+void optInorder(node root);
 bool isBST(node root, int , int);
 void kthSmallestElement(node root, int k);
 void getDataOfKthNode(node root, int pos);
@@ -32,7 +34,7 @@ int main(){
     int val;
     node root = NULL;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -85,6 +87,11 @@ int main(){
                         break;
                 case 13:val = getDiameter(root);
                         cout<<"\nDiameter is: "<<val;
+                        break;
+                case 14:cout<<endl;
+                        optInorder(root);
+                        break;
+                case 15: root->data = sumTree(root->left)+sumTree(root->right);
                         break;
             }
     }
@@ -299,5 +306,33 @@ int getDiameter(node root){
     int lDiameter = getDiameter(root->left);
     int rDiameter = getDiameter(root->right);
     return max(lheight+rheight+1, max(lDiameter,rDiameter));
+}
 
+void optInorder(node root){
+  /*  if(root == NULL)
+        return;
+
+    node current = root, prev = NULL;
+    while(current){
+        if(!current->left){
+            cout<<current->data<<" ";
+            current = current->right;
+        }
+        else{
+            prev = current->left;
+            while
+
+        }
+    }*/
+}
+
+int sumTree(node root){
+    int temp=root->data;
+    if(root->left == NULL||root->right==NULL){
+        root->data = 0;
+        return temp;
+    }
+    temp=root->data;
+    root->data = sumTree(root->left) + sumTree(root->right);
+    return root->data + temp;
 }
