@@ -25,6 +25,7 @@ void kthSmallestElement(node root, int k);
 void getDataOfKthNode(node root, int pos);
 int getDiameter(node);
 int height(node root);
+node lowestCommonAncestor(node,int, int);
 int max(int, int);
 int max(int,int,int);
 int count = 0;
@@ -34,7 +35,7 @@ int main(){
     int val;
     node root = NULL;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\n[16] Lowest Common Ancestor\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -92,6 +93,12 @@ int main(){
                         optInorder(root);
                         break;
                 case 15: root->data = sumTree(root->left)+sumTree(root->right);
+                        break;
+                case 16:int val1, val2;
+                        cout<<"\nEnter: value [1], value [2]:";
+                        cin>>val1>>val2;
+                        node lca = lowestCommonAncestor(root, val1, val2);
+                        cout<<"\n"<<lca->data<<endl;
                         break;
             }
     }
@@ -335,4 +342,17 @@ int sumTree(node root){
     temp=root->data;
     root->data = sumTree(root->left) + sumTree(root->right);
     return root->data + temp;
+}
+
+node lowestCommonAncestor(node root, int val1, int val2){
+    if(root==NULL){
+        return NULL;
+    }
+    if(val1<root->data && val2< root->data){
+        return lowestCommonAncestor(root->left,val1,val2);
+    }
+    else if(val1>root->data && val2>root->data){
+        return lowestCommonAncestor(root->right,val1,val2);
+    }
+    return root;
 }
