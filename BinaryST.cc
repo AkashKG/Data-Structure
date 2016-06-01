@@ -25,17 +25,18 @@ void kthSmallestElement(node root, int k);
 void getDataOfKthNode(node root, int pos);
 int getDiameter(node);
 int height(node root);
+void leftView(node root, int);
 node lowestCommonAncestor(node,int, int);
 int max(int, int);
 int max(int,int,int);
 int count = 0;
-
+int maxLevel = 0;
 int main(){
     int opt;
     int val;
-    node root = NULL;
+    node root = NULL, lca;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\n[16] Lowest Common Ancestor\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\n[16] Lowest Common Ancestor\n[17] Left View\n[18] Top View\n[19] Bottom View\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -97,8 +98,17 @@ int main(){
                 case 16:int val1, val2;
                         cout<<"\nEnter: value [1], value [2]:";
                         cin>>val1>>val2;
-                        node lca = lowestCommonAncestor(root, val1, val2);
+                        lca = lowestCommonAncestor(root, val1, val2);
                         cout<<"\n"<<lca->data<<endl;
+                        break;
+                case 17:cout<<endl;
+                        maxLevel=-1;
+                        leftView(root, 0);
+                        cout<<endl;
+                        break;
+                case 18:cout<<endl;
+                      //  topView(root);
+                        cout<<endl;
                         break;
             }
     }
@@ -355,4 +365,16 @@ node lowestCommonAncestor(node root, int val1, int val2){
         return lowestCommonAncestor(root->right,val1,val2);
     }
     return root;
+}
+
+void leftView(node root, int level){
+    if(root == NULL){
+        return;
+    }
+    if(level>maxLevel){
+        maxLevel=level;
+        cout<<root->data<< " ";
+    }
+    leftView(root->left,level+1);
+    leftView(root->right,level+1);
 }
