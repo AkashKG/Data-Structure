@@ -16,7 +16,6 @@ void printBinary(int num){
         q.push(s1.append("1"));
         cout<<endl;
     }
-    q.
 }
 
 int main(){

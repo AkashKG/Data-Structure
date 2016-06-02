@@ -14,6 +14,8 @@ node insertNodeError(node root, int val);
 node deleteNode(node root, int val);
 bool searchNode(node root, int val);
 int sumTree(node);
+queue <int>  qForB;
+node BToBST(node);
 void traverse(node root);
 void preorder(node root);
 void postorder(node root);
@@ -36,7 +38,7 @@ int main(){
     int val;
     node root = NULL, lca;
     while(1){
-            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\n[16] Lowest Common Ancestor\n[17] Left View\n[18] Top View\n[19] Bottom View\n\nOption: ";
+            cout<<"[1] Insert\n[2] Delete\n[3] Search \n[4] Inorder Traversal\n[5] Level Order Traversal\n[6] PreOrder\n[7] Postorder\n[8] Inorder without recursion\n[9] If BST\n[10] Insert error val\n[11] Kth Smallest Element in BST\n[12] Data at K distance from root.\n[13] Diameter of the Tree.\n[14] Traversal without recursion and stack.\n[15] Sum Tree\n\n[16] Lowest Common Ancestor\n[17] Left View\n[18] B-Tree to BST\n[19] Bottom View\n\nOption: ";
             cin>>opt;
             switch(opt){
                 case 1: cin>>val;
@@ -107,7 +109,7 @@ int main(){
                         cout<<endl;
                         break;
                 case 18:cout<<endl;
-                      //  topView(root);
+                        root=BToBST(root);
                         cout<<endl;
                         break;
             }
@@ -253,6 +255,7 @@ void inorderStack(node root){
     if(root == NULL)
         return;
     stack <node> s;
+
     node current = root;
     while(!s.empty()||current!=NULL){
         if(current!=NULL)
@@ -266,6 +269,7 @@ void inorderStack(node root){
         }
         current = s.top();
         cout<<"\n"<<current->data<<"\n";
+        qForB.push(current->data);
         cout<<"\n\t\tPopped Top";
         s.pop();
         current=current->right;
@@ -377,4 +381,15 @@ void leftView(node root, int level){
     }
     leftView(root->left,level+1);
     leftView(root->right,level+1);
+}
+
+node BToBST(node root){
+    inorderStack(root);
+    node temp=root, prev;
+    root=NULL;
+    while(!qForB.empty()){
+        root=insertNode(root, qForB.front());
+        qForB.pop();
+    }
+    return root;
 }
